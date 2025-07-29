@@ -6,7 +6,6 @@ from flask_cors import CORS
 import pickle
 from difflib import get_close_matches
 import numpy as np
-import csv
 
 app = Flask(__name__)
 CORS(app)
@@ -31,7 +30,7 @@ class RecommenderNet(nn.Module):
 
 # Load datasets and mappings
 movies_df = pd.read_csv('dataset/movies.csv')
-all_titles = movies_df['title'].tolist()
+all_titles = movies_df['title'].tolist()  # This will work with your CSV format
 
 # Load saved mappings
 with open('models/mappings.pkl', 'rb') as f:
@@ -207,6 +206,15 @@ def recommend_for_user_profile(model, liked_movie_ids, movie2idx, movies_df, top
 def serve_index():
     return send_from_directory(".", "index.html")
 
+@app.route('/style.css')
+def serve_css():
+    return send_from_directory(".", "style.css")
+
+@app.route('/movies')
+def get_movies():
+    """Return all movie titles for autocomplete"""
+    return jsonify({"titles": all_titles})
+
 @app.route('/recommend', methods=['POST'])
 def recommend():
     data = request.json
@@ -256,33 +264,6 @@ def recommend():
         "unmatched_movies": unmatched_titles,
         "preferred_genres": preferred_genres[:5]  # Show top 5 preferred genres
     })
-
-@app.route('/style.css')
-def serve_css():
-    return send_from_directory(".", "style.css")
-
-# Read the movie IDs from CSV and generate options
-options = []
-with open("dataset/movies.csv", newline='', encoding='utf-8') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        movie_id = row['movieId']
-        options.append(f'<option value="{movie_id}">')
-
-# Now create the datalist HTML string
-datalist_html = '<datalist id="movie-ids">\n' + '\n'.join(options) + '\n</datalist>'
-
-# Full HTML example with input + datalist
-html = f'''
-<input list="movie-ids" name="movieId" id="movie-id-input">
-{datalist_html}
-'''
-
-# Write to an HTML file or print
-with open('output.html', 'w', encoding='utf-8') as out_file:
-    out_file.write(html)
-
-print("HTML file generated with datalist.")
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
