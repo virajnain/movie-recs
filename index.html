@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Recommender (OMDb)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Enter 4 Favorite Movies</h1>
+
+  <!-- User input form -->
+  <form id="movie-form">
+    <input type="text" name="movie1" list="movielist" required placeholder="Movie 1"><br>
+    <input type="text" name="movie2" list="movielist" required placeholder="Movie 2"><br>
+    <input type="text" name="movie3" list="movielist" required placeholder="Movie 3"><br>
+    <input type="text" name="movie4" list="movielist" required placeholder="Movie 4"><br>
+    <button type="submit">Get Recommendations</button>
+    <div>
+      <datalist id="movielist" class = "list"></datalist>
+    </div>
+  </form>
+
+  <h2>Recommendations:</h2>
+  <ul id="recommendations"></ul>
+
+  <script>
+    document.getElementById("movie-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+  
+      const recommendationsList = document.getElementById("recommendations");
+      recommendationsList.innerHTML = "<li>Loading recommendations...</li>";
+  
+      const movies = [
+        this.movie1.value,
+        this.movie2.value,
+        this.movie3.value,
+        this.movie4.value,
+      ];
+  
+      try {
+        const res = await fetch("http://127.0.0.1:8000/recommend", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ movies })
+        });
+  
+        if (!res.ok) {
+          throw new Error(`Server error: ${res.status}`);
+        }
+  
+        const data = await res.json();
+        const { recommendations, errors } = data;
+  
+        if (recommendations && recommendations.length) {
+          recommendationsList.innerHTML = recommendations
+            .map(m => `<li>${m.title} (ID: ${m.movieId})</li>`)
+            .join('');
+        } else {
+          recommendationsList.innerHTML = "<li>No recommendations found</li>";
+        }
+  
+        if (errors && errors.length) {
+          console.warn("Backend messages:", errors);
+        }
+  
+      } catch (error) {
+        recommendationsList.innerHTML = `<li style="color:red">Error: ${error.message}</li>`;
+        console.error("Error:", error);
+      }
+    });
+  </script>
+</body>
+</html>
