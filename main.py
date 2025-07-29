@@ -29,7 +29,7 @@ class RecommenderNet(nn.Module):
         return dot
 
 # Load datasets and mappings
-movies_df = pd.read_csv('movies.csv')
+movies_df = pd.read_csv('dataset/movies.csv')
 all_titles = movies_df['title'].tolist()
 
 # Load saved mappings
