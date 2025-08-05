@@ -14,8 +14,6 @@ A **collaborative filtering-based movie recommendation engine** built with **PyT
 
 ---
 
----
-
 ## 🧠 How It Works
 1. **Data Loading:**  
    - Reads `movies.csv` and `ratings.csv` (MovieLens format).  
