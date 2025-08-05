@@ -42,7 +42,7 @@ cd movie-recs
 pip install flask flask-cors torch pandas scikit-learn numpy
 ```
 
-## 🛠 Technologies Used
+## 🖥 Technologies Used
 - **Languages & Libraries**: Python, Pandas, NumPy, Pickle
 
 - **Machine Learning Frameworks**: PyTorch (Neural Networks, Embeddings, DataLoader)
