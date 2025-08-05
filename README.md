@@ -2,7 +2,6 @@
 
 A **collaborative filtering-based movie recommendation engine** built with **PyTorch** and deployed via **Flask**. The system predicts user ratings for movies using **embedding-based neural networks** and serves recommendations through a REST API.
 
----
 
 ## 🚀 Features
 - **Collaborative Filtering:** Learns user and movie embeddings for personalized recommendations.  
@@ -12,7 +11,6 @@ A **collaborative filtering-based movie recommendation engine** built with **PyT
 - **Model Persistence:** Saves and loads trained models and mappings for efficient API inference.  
 - **Scalable Training:** Uses PyTorch DataLoader for efficient batching on large datasets.
 
----
 
 ## 🧠 How It Works
 1. **Data Loading:**  
@@ -44,7 +42,7 @@ cd movie-recs
 pip install flask flask-cors torch pandas scikit-learn numpy
 ```
 
-##🛠 Technologies Used
+## 🛠 Technologies Used
 - **Languages & Libraries**: Python, Pandas, NumPy, Pickle
 
 - **Machine Learning Frameworks**: PyTorch (Neural Networks, Embeddings, DataLoader)
