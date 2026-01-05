@@ -21,7 +21,6 @@ class MovieLensDataset(Dataset):
     def __getitem__(self, idx):
         return self.user_indices[idx], self.movie_indices[idx], self.ratings[idx]
 
-
 os.makedirs('models', exist_ok=True)
 
 movies_df = pd.read_csv('movies.csv')
@@ -59,7 +58,6 @@ val_dataset = MovieLensDataset(val_df)
 train_loader = DataLoader(train_dataset, batch_size=1024, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=1024, shuffle=False)
 
-
 class RecommenderNet(nn.Module):
     def __init__(self, num_users, num_movies, embedding_dim=64):
         super().__init__()
@@ -76,7 +74,6 @@ class RecommenderNet(nn.Module):
         
         dot = (user_vecs * movie_vecs).sum(dim=1) + user_b + movie_b
         return dot
-
 
 embedding_dim = 32
 learning_rate = 0.005
