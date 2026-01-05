@@ -7,7 +7,6 @@
 <body>
   <h1>Enter Your Letterboxd Top 4 Favorite Movies</h1>
 
-  <!-- User input form -->
   <form id="movie-form">
     <div class="input-container">
       <input type="text" class="movie-input" name="movie1" required placeholder="Movie 1" autocomplete="off">
@@ -39,7 +38,6 @@
   <script>
     let movieTitles = [];
     
-    // Load movie titles when page loads
     async function loadMovieTitles() {
       try {
         const response = await fetch('http://127.0.0.1:8000/movies');
@@ -52,7 +50,6 @@
       }
     }
     
-    // Filter movies based on input
     function filterMovies(query) {
       if (!query || query.length < 2) return [];
       
@@ -62,7 +59,6 @@
         .slice(0, 10); // Limit to 10 suggestions
     }
     
-    // Show dropdown with suggestions
     function showDropdown(input, dropdown, suggestions) {
       dropdown.innerHTML = '';
       
@@ -85,14 +81,12 @@
       dropdown.style.display = 'block';
     }
     
-    // Hide dropdown
     function hideDropdown(dropdown) {
       setTimeout(() => {
         dropdown.style.display = 'none';
-      }, 150); // Small delay to allow clicks
+      }, 150);
     }
     
-    // Setup autocomplete for all inputs
     function setupAutocomplete() {
       const inputs = document.querySelectorAll('.movie-input');
       
@@ -119,7 +113,6 @@
       });
     }
     
-    // Handle form submission
     document.getElementById("movie-form").addEventListener("submit", async function(e) {
       e.preventDefault();
   
@@ -150,7 +143,6 @@
         const data = await res.json();
         const { recommendations, errors, preferred_genres, matched_movies, unmatched_movies } = data;
         
-        // Show preferred genres
         if (preferred_genres && preferred_genres.length > 0) {
           preferredGenresDiv.innerHTML = `
             <div class="preferred-genres">
@@ -159,7 +151,6 @@
           `;
         }
         
-        // Show matched/unmatched movies
         if (matched_movies && matched_movies.length > 0) {
           console.log('Matched movies:', matched_movies);
         }
@@ -190,7 +181,6 @@
       }
     });
     
-    // Initialize everything when page loads
     document.addEventListener('DOMContentLoaded', async () => {
       await loadMovieTitles();
       setupAutocomplete();
