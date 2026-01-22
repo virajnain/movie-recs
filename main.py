@@ -68,11 +68,7 @@ def create_synthetic_user_profile(liked_movie_ids, movie2idx, model):
     return synthetic_user_embedding, synthetic_user_bias
 
 def get_user_preferred_genres(liked_movie_ids, movies_df):
-    """
-    Extract and rank genres from user's favorite movies
-    Example: If user likes ["Toy Story", "Shrek", "Finding Nemo", "The Incredibles"]
-    Returns: Animation (4x), Children (4x), Comedy (2x)
-    """
+
     liked_movies = movies_df[movies_df['movieId'].isin(liked_movie_ids)]
     
     genre_counts = {}
@@ -87,10 +83,7 @@ def get_user_preferred_genres(liked_movie_ids, movies_df):
     return preferred_genres, genre_counts
 
 def calculate_genre_similarity(movie_genres_str, preferred_genres, genre_counts):
-    """
-    Calculate weighted genre similarity score for a movie
-    Higher score = more genre overlap with user's favorites
-    """
+
     if not preferred_genres or not movie_genres_str:
         return 0.0
     
@@ -110,11 +103,7 @@ def calculate_genre_similarity(movie_genres_str, preferred_genres, genre_counts)
     return similarity_score
 
 def recommend_for_user_profile(model, liked_movie_ids, movie2idx, movies_df, top_n=10):
-    """
-    Recommend movies using:
-    - 70% model predictions (collaborative filtering)  
-    - 30% genre similarity to user's favorite genres
-    """
+
     model.eval()
     
     synthetic_user_emb, synthetic_user_bias = create_synthetic_user_profile(
@@ -234,7 +223,7 @@ def recommend():
         "errors": [],
         "matched_movies": matched_titles,
         "unmatched_movies": unmatched_titles,
-        "preferred_genres": preferred_genres[:5]  # Show top 5 preferred genres
+        "preferred_genres": preferred_genres[:5]
     })
 
 if __name__ == "__main__":
