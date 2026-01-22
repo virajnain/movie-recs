@@ -28,7 +28,7 @@ class RecommenderNet(nn.Module):
         return dot
 
 movies_df = pd.read_csv('dataset/movies.csv')
-all_titles = movies_df['title'].tolist()  # This will work with your CSV format
+all_titles = movies_df['title'].tolist() 
 
 with open('models/mappings.pkl', 'rb') as f:
     mappings = pickle.load(f)
